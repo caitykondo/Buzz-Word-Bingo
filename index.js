@@ -34,8 +34,6 @@ app.put('/buzzword', (req, res)=> {
       buzzwordList[i].points = pointsValue + reqPoints;
       buzzwordList[i].heard = true;
       res.json({'success': true,'newScore': buzzwordList[i].points});
-    }else{
-      res.json({'success': 'false'});
     }
   }
 });
