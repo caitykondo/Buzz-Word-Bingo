@@ -47,6 +47,15 @@ app.delete('/buzzword', (req, res)=>{
   }
 });
 
+app.post('/reset', (req, res)=>{
+  if(req.body.reset === 'true'){
+    buzzwordList = [];
+    res.json({'success': 'true'});
+  }else{
+    res.json({'success': 'false'});
+  }
+});
+
 var server = app.listen(PORT, () => {
   var host = server.address().address;
   var port = server.address().port;
