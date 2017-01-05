@@ -38,6 +38,15 @@ app.put('/buzzword', (req, res)=> {
   }
 });
 
+app.delete('/buzzword', (req, res)=>{
+  for(let i = 0; i < buzzwordList.length; i++){
+    if(req.body.buzzWord === buzzwordList[i].buzzWord){
+      buzzwordList.splice(i, 1, 0);
+      res.json({'success': 'true'});
+    }
+  }
+});
+
 var server = app.listen(PORT, () => {
   var host = server.address().address;
   var port = server.address().port;
