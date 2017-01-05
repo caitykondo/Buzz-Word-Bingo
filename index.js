@@ -5,13 +5,39 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
-app.use((req, res, next)=>{
-  console.log('app started');
-  next();
+let buzzwordList = [];
+
+app.use(bodyParser.urlencoded({extended: false}));
+
+app.get('/', (req, res) => {
+  res.send('HTML here');
 });
 
-app.get('/', (req, res, next) => {
-  res.send('HTML here');
+app.get('/buzzwords', (req, res, next) => {
+  res.json(buzzwordList);
+});
+
+app.post('/buzzwords', (req, res)=> {
+  if (typeof req.body === 'object'){
+    buzzwordList.push(req.body);
+    res.json({'success': 'true'});
+  }else{
+    res.json({'success': 'false'});
+  }
+});
+
+app.put('/buzzword', (req, res)=> {
+  for(let i = 0; i < buzzwordList.length; i++){
+    if (req.body.buzzWord === buzzwordList[i].buzzWord){
+      let pointsValue = parseInt(buzzwordList[i].points);
+      let reqPoints = parseInt(req.body.points);
+      buzzwordList[i].points = pointsValue + reqPoints;
+      buzzwordList[i].heard = true;
+      res.json({'success': true,'newScore': buzzwordList[i].points});
+    }else{
+      res.json({'success': 'false'});
+    }
+  }
 });
 
 var server = app.listen(PORT, () => {
